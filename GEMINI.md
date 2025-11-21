@@ -23,6 +23,9 @@ The core file of the project. It is a self-contained HTML document that includes
 ### `GEMINI.md`
 This file. It serves as the context and documentation for AI agents interacting with this directory.
 
+## License
+This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)** license.
+
 ## Usage & Development
 
 *   **Viewing:** The `index.html` file can be opened directly in any modern web browser. No server is strictly required for local viewing.
