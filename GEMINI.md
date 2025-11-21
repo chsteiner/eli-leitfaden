@@ -1,7 +1,7 @@
-# SocialAI Orientierungsleitfaden - Project Context
+# Diversitätssensibler Umgang mit Künstlicher Intelligenz - Project Context
 
 ## Project Overview
-This project contains the "SocialAI Orientierungsleitfaden" (SocialAI Orientation Guide), a single-page web document designed to guide social workers in the ethical and professional use of Artificial Intelligence.
+This project contains the "Diversitätssensibler Umgang mit Künstlicher Intelligenz" guide (formerly SocialAI), a single-page web document designed to guide social workers in the ethical and professional use of Artificial Intelligence, focusing on AI Literacies and feminist prompting.
 
 The guide focuses on:
 *   **Human-in-the-Loop:** Emphasizing professional judgment over AI output.
