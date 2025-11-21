@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialAI Orientierungsleitfaden</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- DESIGN SYSTEM (CSS Variables) --- */
+        :root {
+            /* Farben */
+            --col-bg: #F9F8F6;         /* Warmes Papier-Weiß */
+            --col-surface: #FFFFFF;    /* Reines Weiß */
+            --col-primary: #1E3A4C;    /* Deep Petrol (Seriosität/Forschung) */
+            --col-accent: #D97757;     /* Terracotta (Human Factor/Warnung) */
+            --col-success: #2A9D8F;    /* Muted Teal (Good Practice) */
+            --col-text: #2D3748;       /* Lesetext */
+            --col-text-muted: #718096; /* Metadaten */
+            --col-border: #E2E8F0;
+            
+            /* Abstände & Layout */
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --radius: 8px;
+            --shadow-soft: 0 4px 20px rgba(0,0,0,0.06);
+            --shadow-card: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        /* --- RESET & BASIC --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--col-bg);
+            color: var(--col-text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { color: var(--col-primary); font-weight: 700; line-height: 1.2; }
+        p { margin-bottom: 1.5rem; max-width: 75ch; }
+        
+        /* --- HEADER HERO --- */
+        header {
+            background: var(--col-primary);
+            color: white;
+            padding: 4rem 0 2rem 0;
+            border-bottom: 4px solid var(--col-accent);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+        .brand-label {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--col-accent);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        h1 {
+            color: white;
+            font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive Font Size */
+            margin-bottom: 1rem;
+        }
+        .lead {
+            font-family: 'Merriweather', serif;
+            font-size: 1.2rem;
+            color: #CBD5E0;
+            font-weight: 300;
+            max-width: 700px;
+        }
+
+        /* --- ACTION BAR (Dual Mode UX) --- */
+        .action-bar {
+            background: var(--col-surface);
+            border-bottom: 1px solid var(--col-border);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-soft);
+        }
+        .action-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+        .action-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        /* Suchfeld Styling */
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--col-border);
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--col-accent);
+            box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.1);
+        }
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--col-text-muted);
+            pointer-events: none;
+        }
+
+        /* Quick Cards Grid */
+        .quick-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .q-card {
+            background: #F8FAFC;
+            border: 1px solid var(--col-border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .q-card:hover {
+            background: var(--col-primary);
+            border-color: var(--col-primary);
+            transform: translateY(-2px);
+        }
+        .q-card:hover * { color: white !important; } /* Force white text on hover */
+        
+        .q-icon { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--col-primary); }
+        .q-title { font-weight: 700; font-size: 0.9rem; color: var(--col-text); }
+        .q-desc { font-size: 0.75rem; color: var(--col-text-muted); margin-top: 0.25rem; }
+        
+        /* Highlight card styling */
+        .q-card.highlight { background: var(--col-accent); border-color: var(--col-accent); }
+        .q-card.highlight .q-title, .q-card.highlight .q-desc, .q-card.highlight .q-icon { color: white; }
+        .q-card.highlight:hover { background: #c05638; }
+
+        /* --- MAIN CONTENT LAYOUT --- */
+        .container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 var(--spacing-sm);
+            display: grid;
+            grid-template-columns: 250px 1fr; /* Sidebar + Content */
+            gap: 4rem;
+        }
+
+        /* Sticky Sidebar */
+        aside { position: sticky; top: 280px; height: fit-content; }
+        .nav-list { list-style: none; border-left: 2px solid var(--col-border); }
+        .nav-list li { margin-bottom: 0; }
+        .nav-link {
+            display: block;
+            padding: 0.5rem 0 0.5rem 1.5rem;
+            color: var(--col-text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            border-left: 2px solid transparent;
+            margin-left: -2px;
+        }
+        .nav-link:hover { color: var(--col-primary); }
+        .nav-link.active { color: var(--col-primary); font-weight: 700; border-left-color: var(--col-accent); }
+
+        /* Sections */
+        section { margin-bottom: 5rem; scroll-margin-top: 280px; } /* Offset for sticky header */
+        
+        /* Components: Cards & Boxes */
+        .content-card {
+            background: var(--col-surface);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--col-border);
+        }
+
+        /* EPIC GRID */
+        .epic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .epic-item {
+            background: var(--col-surface);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border-top: 4px solid var(--col-primary);
+            box-shadow: var(--shadow-card);
+        }
+        .epic-letter { font-size: 2rem; font-weight: 900; color: var(--col-accent); opacity: 0.8; margin-bottom: 0.5rem; display: block; }
+
+        /* PROMPTING FORMULA */
+        .formula-list { list-style: none; margin-top: 1.5rem; }
+        .formula-step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+        .step-num {
+            background: var(--col-primary);
+            color: white;
+            min-width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .step-content strong { display: block; color: var(--col-primary); margin-bottom: 0.25rem; }
+        .step-constraint .step-num { background: var(--col-accent); }
+        
+        /* EXAMPLE BOX (Bad vs Good) */
+        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+        .ex-box { padding: 1.5rem; border-radius: var(--radius); font-size: 0.95rem; }
+        .ex-bad { background: #FFF5F5; border: 1px solid #FC8181; }
+        .ex-good { background: #F0FDF9; border: 1px solid var(--col-success); }
+        .tag { 
+            display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; 
+            padding: 0.25rem 0.5rem; border-radius: 4px; margin-bottom: 1rem; letter-spacing: 1px;
+        }
+        .tag-bad { background: #FC8181; color: white; }
+        .tag-good { background: var(--col-success); color: white; }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--col-text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--col-border);
+        }
+
+        /* UTILS for JS Search */
+        .hidden { display: none !important; }
+        .highlight-search { animation: pulse 1s; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; margin-top: 2rem; }
+            aside { display: none; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 2.5rem; }
+            .action-bar { position: static; } /* Unstick on mobile for space */
+        }
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            .action-bar, aside, footer { display: none; }
+            .container { display: block; margin: 0; }
+            body { background: white; color: black; }
+            header { padding: 2rem 0; background: white; color: black; border-bottom: 1px solid black; }
+            h1 { color: black; margin: 0; }
+            .lead { color: black; }
+            .content-card, .epic-item { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; }
+            a { text-decoration: none; color: black; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <span class="brand-label">Projekt SocialAI</span>
+            <h1>Orientierungsleitfaden</h1>
+            <p class="lead">Wissensdokument für einen chancengerechten, diversitätssensiblen und professionellen KI-Einsatz in der Sozialen Arbeit.</p>
+        </div>
+    </header>
+
+    <div class="action-bar">
+        <div class="action-container">
+            
+            <div class="action-header">
+                <div>
+                    <h3 style="margin-bottom:0; font-size:1.1rem;">Was brauchst du gerade?</h3>
+                    <span style="font-size: 0.85rem; color: var(--col-text-muted);">Wähle ein Tool oder nutze die Volltextsuche.</span>
+                </div>
+                
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Suchbegriff (z.B. 'Bias', 'Flyer', 'Recht')..." onkeyup="filterContent()">
+                </div>
+            </div>
+
+            <div class="quick-cards">
+                <a href="#prompting" class="q-card">
+                    <span class="q-icon">⚡</span>
+                    <span class="q-title">Prompt Builder</span>
+                    <span class="q-desc">Die 5-Schritte-Formel für sichere Eingaben.</span>
+                </a>
+                <a href="#check" class="q-card">
+                    <span class="q-icon">⚖️</span>
+                    <span class="q-title">Vibe Check</span>
+                    <span class="q-desc">Checkliste: Ist der Output diskriminierungsfrei?</span>
+                </a>
+                <a href="#risiken" class="q-card">
+                    <span class="q-icon">⚠️</span>
+                    <span class="q-title">Risiko-Radar</span>
+                    <span class="q-desc">Halluzinationen, Datenschutz & Grenzen.</span>
+                </a>
+                <a href="#epic" class="q-card">
+                    <span class="q-icon">📖</span>
+                    <span class="q-title">Grundlagen lesen</span>
+                    <span class="q-desc">Das volle EPIC-Modell verstehen.</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <aside>
+            <nav>
+                <h4 style="font-size: 0.8rem; text-transform: uppercase; color: var(--col-text-muted); margin-bottom: 1rem;">Inhaltsverzeichnis</h4>
+                <ul class="nav-list">
+                    <li><a href="#zweck" class="nav-link active">1. Zweck & Haltung</a></li>
+                    <li><a href="#epic" class="nav-link">2. EPIC-Modell</a></li>
+                    <li><a href="#risiken" class="nav-link">3. Risiken</a></li>
+                    <li><a href="#prompting" class="nav-link">4. Prompting</a></li>
+                    <li><a href="#lernen" class="nav-link">5. Lernkultur</a></li>
+                    <li><a href="#umsetzung" class="nav-link">6. Umsetzung</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main id="mainContent">
+            
+            <section id="zweck">
+                <h2>1. Zweck & Haltung</h2>
+                <p>Dieser Leitfaden übersetzt die wissenschaftlichen Erkenntnisse des SocialAI-Projekts in die Praxis. Er reagiert auf die Vulnerabilität der Klient:innen und die Risiken von diskriminierenden KI-Ausgaben (Bias).</p>
+                
+                <div class="content-card" style="border-left: 4px solid var(--col-primary);">
+                    <h4 style="margin-bottom: 0.5rem;">Zentrale Haltung: Human-in-the-Loop</h4>
+                    <p style="margin-bottom: 0; font-size: 0.95rem;">
+                        Wir betrachten KI nicht als „Wahrheitsmaschine“, sondern als Werkzeug. Informierte Skepsis gepaart mit Mut zur Fehlerfreundlichkeit ist essenziell. Die fachliche Entscheidung triffst immer du, nie die KI.
+                    </p>
+                </div>
+            </section>
+
+            
+
+[Image of EPIC model diagram]
+
+            <section id="epic">
+                <h2>2. Das EPIC-Modell</h2>
+                <p>Der ethische Rahmen für dein Handeln. Wir überführen abstrakte Prinzipien in praxistaugliche Werkzeuge.</p>
+                
+                <div class="epic-grid">
+                    <div class="epic-item">
+                        <span class="epic-letter">E</span>
+                        <strong>Ethics & Justice</strong>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Bewusstsein für Bias. KI reproduziert Ungleichheit. Du korrigierst aktiv.</p>
+                    </div>
+                    <div class="epic-item">
+                        <span class="epic-letter">P</span>
+                        <strong>Policy Development</strong>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Datenschutz (DSGVO). Niemals Klarnamen oder echte Falldaten eingeben.</p>
+                    </div>
+                    <div class="epic-item">
+                        <span class="epic-letter">I</span>
+                        <strong>Intersectoral</strong>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Technik trifft Soziales. Wir melden Fehler systematisch zurück.</p>
+                    </div>
+                    <div class="epic-item">
+                        <span class="epic-letter">C</span>
+                        <strong>Community</strong>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Digitale Teilhabe. KI nutzen, um Autonomie der Adressat:innen zu stärken.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="risiken">
+                <h2>3. Grundlagen & Risiken</h2>
+                <p>KI versteht keine Inhalte, sie berechnet Wahrscheinlichkeiten. Das führt zu spezifischen Risiken in der Sozialen Arbeit.</p>
+                
+                <ul style="margin-bottom: 2rem; padding-left: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;"><strong>Halluzinationen:</strong> Erfindung von Fakten, Quellen oder Gesetzen.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Sycophancy:</strong> Die KI redet dir nach dem Mund ("Gefälligkeit").</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Bias:</strong> Reproduktion von Stereotypen (Gender, Herkunft, Alter).</li>
+                </ul>
+            </section>
+
+            <section id="prompting">
+                <h2>4. Prompt Engineering</h2>
+                <p>Prompting ist Machtausübung. Wir ersetzen "Bauchgefühl" durch das systematische <strong>SocialAI Framework</strong>.</p>
+
+                <div class="content-card">
+                    <h3 style="color: var(--col-primary);">Die 5-Schritte-Formel</h3>
+                    <ul class="formula-list">
+                        <li class="formula-step">
+                            <span class="step-num">1</span>
+                            <div class="step-content">
+                                <strong>Rolle (Wer?)</strong>
+                                Gib der KI eine professionelle Identität (z.B. "Systemische Beraterin").
+                            </div>
+                        </li>
+                        <li class="formula-step">
+                            <span class="step-num">2</span>
+                            <div class="step-content">
+                                <strong>Kontext (Wo?)</strong>
+                                Beschreibe das Setting und die Zielgruppe (ohne Echtdaten!).
+                            </div>
+                        </li>
+                        <li class="formula-step">
+                            <span class="step-num">3</span>
+                            <div class="step-content">
+                                <strong>Aufgabe (Was?)</strong>
+                                Definiere das Ziel (z.B. "Entwurf für einen Flyer", "Zusammenfassung").
+                            </div>
+                        </li>
+                        <li class="formula-step">
+                            <span class="step-num">4</span>
+                            <div class="step-content">
+                                <strong>Format (Wie?)</strong>
+                                Definiere die Ausgabe (Tabelle, Du-Ansprache, Leichte Sprache).
+                            </div>
+                        </li>
+                        <li class="formula-step step-constraint">
+                            <span class="step-num">!</span>
+                            <div class="step-content">
+                                <strong style="color: var(--col-accent);">Constraints (Grenzen & Bias-Kontrolle)</strong>
+                                Was darf NICHT passieren? (z.B. "Keine pathologisierende Sprache", "Keine Gender-Klischees").
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="ex-box ex-bad">
+                        <span class="tag tag-bad">Naives Prompting</span>
+                        <p>„Schreib mir einen Text für einen Flyer über Jugendgewalt.“</p>
+                        <hr style="border:0; border-top:1px solid #feb2b2; margin:1rem 0;">
+                        <p style="font-size:0.85rem;"><strong>Folge:</strong> Stereotype, moralisierender Ton, „Problemkids“-Rhetorik.</p>
+                    </div>
+                    <div class="ex-box ex-good">
+                        <span class="tag tag-good">SocialAI Prompt</span>
+                        <p><strong>Rolle:</strong> Fachkraft rassismuskritische Arbeit.<br>
+                        <strong>Kontext:</strong> Diverse Stadtteileinrichtung.<br>
+                        <strong>Constraints:</strong> Keine Täter-Opfer-Begriffe. Geschlechtergerecht.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="check">
+                <h3>Der "Vibe Check" (Qualitätskontrolle)</h3>
+                <p>Prüfe jeden Output kritisch, bevor du ihn verwendest:</p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="background: white; padding: 1rem; border-bottom: 1px solid #eee; display:flex; gap:1rem; align-items: center;">
+                        <span style="color: var(--col-success);">✔</span> Fühlt sich der Text "von oben herab" an? (Adultismus)
+                    </li>
+                    <li style="background: white; padding: 1rem; border-bottom: 1px solid #eee; display:flex; gap:1rem; align-items: center;">
+                        <span style="color: var(--col-success);">✔</span> Werden FLINTA* Personen unsichtbar gemacht?
+                    </li>
+                    <li style="background: white; padding: 1rem; border-bottom: 1px solid #eee; display:flex; gap:1rem; align-items: center;">
+                        <span style="color: var(--col-success);">✔</span> <strong>Tipp:</strong> Bitte die KI um Selbstkorrektur ("Analysiere deinen Text auf Bias").
+                    </li>
+                </ul>
+            </section>
+
+            <section id="lernen">
+                <h2>5. Lernkultur & Fehlerkompetenz</h2>
+                <p>Wir etablieren "Safe Spaces" im Team, um problematische KI-Outputs gemeinsam zu analysieren.</p>
+                <p><strong>Fehler als Methode:</strong> Wenn die KI Unsinn produziert, schärft das deinen Blick für die Grenzen der Technik. Wenn dein Prompt schlecht war, analysiere fehlende Constraints.</p>
+            </section>
+
+            <section id="umsetzung">
+                <h2>6. Umsetzung & Nachhaltigkeit</h2>
+                <p>Die Verwertung erfolgt Open Source und modellagnostisch (unabhängig vom Hersteller).</p>
+                <p style="font-size: 0.9rem; color: var(--col-text-muted);">
+                    © 2024 SocialAI Research Group. Dieser Leitfaden ist ein lebendes Dokument.
+                </p>
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>Projekt SocialAI | Evidenzbasierte KI in der Sozialen Arbeit</p>
+    </footer>
+
+    <script>
+        function filterContent() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const main = document.getElementById('mainContent');
+            const sections = main.getElementsByTagName('section');
+
+            // Wenn Suche leer, alles zeigen
+            if (filter === "") {
+                for (let i = 0; i < sections.length; i++) {
+                    sections[i].classList.remove('hidden');
+                }
+                return;
+            }
+
+            // Durchsuchen
+            for (let i = 0; i < sections.length; i++) {
+                const txtValue = sections[i].textContent || sections[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    sections[i].classList.remove('hidden');
+                } else {
+                    sections[i].classList.add('hidden');
+                }
+            }
+        }
+
+        // --- SCROLLSPY / NAVIGATION HIGHLIGHTING ---
+        const spySections = document.querySelectorAll('section');
+        const spyLinks = document.querySelectorAll('.nav-link');
+        const spyCards = document.querySelectorAll('.q-card');
+
+        function updateHighlight() {
+            let currentId = "";
+            const offset = 350; // Tuned for sticky header height
+
+            spySections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= (sectionTop - offset)) {
+                    currentId = section.getAttribute('id');
+                }
+            });
+
+            // Update Sidebar
+            spyLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Update Top Quick Cards
+            spyCards.forEach(card => {
+                card.classList.remove('highlight');
+                if (card.getAttribute('href') === '#' + currentId) {
+                    card.classList.add('highlight');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateHighlight);
+        // Run immediately in case we load halfway down the page
+        updateHighlight();
+    </script>
+
+</body>
+</html>
